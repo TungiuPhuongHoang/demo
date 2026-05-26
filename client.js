@@ -6,7 +6,8 @@ const progressBar = document.getElementById("progressBar");
 const resultList = document.getElementById("resultList");
 
 const EXTRA_LIST_ITEMS = [
-    "Xamvn",
+    "Xamvn1",
+    "Xamvn2",
     "Rphang",
     "Vietdam",
     "xnhau",
