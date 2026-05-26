@@ -6,9 +6,11 @@ const progressBar = document.getElementById("progressBar");
 const resultList = document.getElementById("resultList");
 
 const EXTRA_LIST_ITEMS = [
-    "Check image quality",
-    "Check image size",
-    "Check next"
+    "Xamvn",
+    "Rphang",
+    "Vietdam",
+    "xnhau",
+    "checkerviet"
 ];
 
 const LOADING_STEP_DELAY_MS = 5000;
