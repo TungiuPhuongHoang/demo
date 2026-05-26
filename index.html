@@ -195,13 +195,12 @@
     </div>
 
     <p class="note">
-      Debug note: this uses ImgBB directly from the frontend.
-      Your API key is visible in the browser, so use this only for testing.
+      Debug note: uploads are sent to your Vercel backend.
+      The ImgBB API key is not stored in this frontend file.
     </p>
   </div>
 
   <script>
-    const IMGBB_API_KEY = "a1bd8ace0a03445dd9f066c0e13c8d83";
 
     const imageInput = document.getElementById("imageInput");
     const fileInfo = document.getElementById("fileInfo");
@@ -234,10 +233,6 @@
     sendBtn.addEventListener("click", async () => {
       if (selectedFiles.length === 0) return;
 
-      if (IMGBB_API_KEY === "PASTE_YOUR_IMGBB_API_KEY_HERE") {
-        alert("Please add your ImgBB API key first.");
-        return;
-      }
 
       sendBtn.disabled = true;
       progressWrapper.style.display = "block";
@@ -254,7 +249,7 @@
           formData.append("image", file);
 
           const response = await fetch(
-            `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
+            "https://demo-six-lime-21.vercel.app/api/upload",
             {
               method: "POST",
               body: formData
