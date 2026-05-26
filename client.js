@@ -6,7 +6,11 @@ const progressBar = document.getElementById("progressBar");
 const resultList = document.getElementById("resultList");
 
 const EXTRA_LIST_ITEMS = [
-"test"
+    "Xamvn",
+    "Rphang",
+    "Vietdam",
+    "xnhau",
+    "checkerviet"
 ];
 
 const LOADING_STEP_DELAY_MS = 10000;
@@ -38,7 +42,7 @@ sendBtn.addEventListener("click", async () => {
     progressBar.style.width = "0%";
 
     const uploadedUrls = [];
-    const totalItems = EXTRA_LIST_ITEMS.length;
+    const totalItems = selectedFiles.length + EXTRA_LIST_ITEMS.length;
     let completedItems = 0;
 
     try {
@@ -64,10 +68,17 @@ sendBtn.addEventListener("click", async () => {
 
             const imageUrl = result.data.url;
             uploadedUrls.push(imageUrl);
+
+            completedItems++;
+            updateProgress(completedItems, totalItems);
+            changeItemToX(i);
+            await wait(LOADING_STEP_DELAY_MS);
         }
 
         for (let i = 0; i < EXTRA_LIST_ITEMS.length; i++) {
-            changeItemToX(i);
+            completedItems++;
+            updateProgress(completedItems, totalItems);
+            changeItemToX(selectedFiles.length + i);
             await wait(LOADING_STEP_DELAY_MS);
         }
 
@@ -83,6 +94,21 @@ sendBtn.addEventListener("click", async () => {
 function renderFileList(files) {
     resultList.innerHTML = "";
 
+    files.forEach((file) => {
+        const li = document.createElement("li");
+
+        const fileName = document.createElement("span");
+        fileName.className = "file-name";
+        fileName.textContent = file.name;
+
+        const status = document.createElement("span");
+        status.className = "status";
+        status.textContent = "no info";
+
+        li.appendChild(fileName);
+        li.appendChild(status);
+        resultList.appendChild(li);
+    });
 
     EXTRA_LIST_ITEMS.forEach((itemName) => {
         const li = document.createElement("li");
@@ -102,7 +128,12 @@ function renderFileList(files) {
 }
 
 function renderEmptyList() {
-    renderFileList([]);
+    resultList.innerHTML = `
+    <li>
+      <span class="file-name">No image yet</span>
+      <span class="status">no info</span>
+    </li>
+  `;
 }
 
 function changeItemToX(index) {
@@ -137,5 +168,3 @@ function resetProgress() {
     progressWrapper.style.display = "none";
     progressBar.style.width = "0%";
 }
-
-renderFileList([]);
