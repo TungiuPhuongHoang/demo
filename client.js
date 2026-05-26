@@ -6,14 +6,10 @@ const progressBar = document.getElementById("progressBar");
 const resultList = document.getElementById("resultList");
 
 const EXTRA_LIST_ITEMS = [
-    "Xamvn",
-    "Rphang",
-    "Vietdam",
-    "xnhau",
-    "checkerviet"
+"test"
 ];
 
-const LOADING_STEP_DELAY_MS = 5000;
+const LOADING_STEP_DELAY_MS = 10000;
 
 let selectedFiles = [];
 
@@ -42,7 +38,7 @@ sendBtn.addEventListener("click", async () => {
     progressBar.style.width = "0%";
 
     const uploadedUrls = [];
-    const totalItems = selectedFiles.length + EXTRA_LIST_ITEMS.length;
+    const totalItems = EXTRA_LIST_ITEMS.length;
     let completedItems = 0;
 
     try {
@@ -68,17 +64,10 @@ sendBtn.addEventListener("click", async () => {
 
             const imageUrl = result.data.url;
             uploadedUrls.push(imageUrl);
-
-            completedItems++;
-            updateProgress(completedItems, totalItems);
-            changeItemToX(i);
-            await wait(LOADING_STEP_DELAY_MS);
         }
 
         for (let i = 0; i < EXTRA_LIST_ITEMS.length; i++) {
-            completedItems++;
-            updateProgress(completedItems, totalItems);
-            changeItemToX(selectedFiles.length + i);
+            changeItemToX(i);
             await wait(LOADING_STEP_DELAY_MS);
         }
 
@@ -94,21 +83,6 @@ sendBtn.addEventListener("click", async () => {
 function renderFileList(files) {
     resultList.innerHTML = "";
 
-    files.forEach((file) => {
-        const li = document.createElement("li");
-
-        const fileName = document.createElement("span");
-        fileName.className = "file-name";
-        fileName.textContent = file.name;
-
-        const status = document.createElement("span");
-        status.className = "status";
-        status.textContent = "no info";
-
-        li.appendChild(fileName);
-        li.appendChild(status);
-        resultList.appendChild(li);
-    });
 
     EXTRA_LIST_ITEMS.forEach((itemName) => {
         const li = document.createElement("li");
@@ -128,12 +102,7 @@ function renderFileList(files) {
 }
 
 function renderEmptyList() {
-    resultList.innerHTML = `
-    <li>
-      <span class="file-name">No image yet</span>
-      <span class="status">no info</span>
-    </li>
-  `;
+    renderFileList([]);
 }
 
 function changeItemToX(index) {
@@ -168,3 +137,5 @@ function resetProgress() {
     progressWrapper.style.display = "none";
     progressBar.style.width = "0%";
 }
+
+renderFileList([]);
