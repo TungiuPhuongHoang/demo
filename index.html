@@ -38,6 +38,11 @@
     }
 
     .upload-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 150px;
       border: 2px dashed #9aa4b2;
       border-radius: 14px;
       padding: 30px;
@@ -50,6 +55,10 @@
     .upload-box:hover {
       border-color: #222;
       background: #f0f2f5;
+    }
+
+    .upload-box p {
+      margin: 10px 0 0;
     }
 
     input[type="file"] {
@@ -138,29 +147,6 @@
       font-size: 20px;
       flex-shrink: 0;
     }
-
-    .url-list {
-      margin-top: 24px;
-    }
-
-    .url-list h3 {
-      margin-bottom: 10px;
-    }
-
-    .url-list a {
-      display: block;
-      word-break: break-all;
-      margin-bottom: 8px;
-      color: #0066cc;
-      font-size: 14px;
-    }
-
-    .note {
-      margin-top: 18px;
-      font-size: 13px;
-      color: #666;
-      line-height: 1.5;
-    }
   </style>
 </head>
 
@@ -188,16 +174,6 @@
         <span class="status">no info</span>
       </li>
     </ul>
-
-    <div class="url-list">
-      <h3>Uploaded URLs</h3>
-      <div id="urlList">No uploaded image yet</div>
-    </div>
-
-    <p class="note">
-      Debug note: uploads are sent to your Vercel backend.
-      The ImgBB API key is not stored in this frontend file.
-    </p>
   </div>
 
   <script src="client.js"></script>

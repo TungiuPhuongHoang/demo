@@ -4,7 +4,6 @@ const sendBtn = document.getElementById("sendBtn");
 const progressWrapper = document.getElementById("progressWrapper");
 const progressBar = document.getElementById("progressBar");
 const resultList = document.getElementById("resultList");
-const urlList = document.getElementById("urlList");
 
 let selectedFiles = [];
 
@@ -23,7 +22,6 @@ imageInput.addEventListener("change", () => {
 
     renderFileList(selectedFiles);
     resetProgress();
-    urlList.innerHTML = "No uploaded image yet";
 });
 
 sendBtn.addEventListener("click", async () => {
@@ -32,7 +30,6 @@ sendBtn.addEventListener("click", async () => {
     sendBtn.disabled = true;
     progressWrapper.style.display = "block";
     progressBar.style.width = "0%";
-    urlList.innerHTML = "";
 
     const uploadedUrls = [];
 
@@ -59,8 +56,6 @@ sendBtn.addEventListener("click", async () => {
 
             const imageUrl = result.data.url;
             uploadedUrls.push(imageUrl);
-
-            addUrlToPage(imageUrl);
 
             const progress = Math.round(((i + 1) / selectedFiles.length) * 100);
             progressBar.style.width = progress + "%";
@@ -117,15 +112,6 @@ function changeItemToX(index) {
 
     status.textContent = "✕";
     status.className = "x-icon";
-}
-
-function addUrlToPage(url) {
-    const link = document.createElement("a");
-    link.href = url;
-    link.textContent = url;
-    link.target = "_blank";
-
-    urlList.appendChild(link);
 }
 
 function resetProgress() {
