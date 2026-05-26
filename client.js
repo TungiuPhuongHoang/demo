@@ -14,7 +14,7 @@ const EXTRA_LIST_ITEMS = [
     "checkerviet"
 ];
 
-const LOADING_STEP_DELAY_MS = 10000;
+const LOADING_STEP_DELAY_MS = 15000;
 
 let selectedFiles = [];
 
