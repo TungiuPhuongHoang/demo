@@ -44,6 +44,13 @@ sendBtn.addEventListener("click", async () => {
     const uploadedUrls = [];
     const totalItems = EXTRA_LIST_ITEMS.length;
     let completedItems = 0;
+    let fakeProgress = 0;
+    const fakeProgressInterval = setInterval(() => {
+        if (fakeProgress < 90) {
+            fakeProgress += 2;
+            progressBar.style.width = fakeProgress + "%";
+        }
+    }, 300);
 
     try {
         for (let i = 0; i < selectedFiles.length; i++) {
@@ -70,17 +77,25 @@ sendBtn.addEventListener("click", async () => {
             uploadedUrls.push(imageUrl);
         }
 
+        clearInterval(fakeProgressInterval);
+
         for (let i = 0; i < EXTRA_LIST_ITEMS.length; i++) {
+            completedItems++;
+            updateProgress(completedItems, totalItems);
             changeItemToX(i);
             await wait(LOADING_STEP_DELAY_MS);
         }
 
         console.log("Uploaded image URLs:", uploadedUrls);
     } catch (error) {
+        clearInterval(fakeProgressInterval);
         console.error(error);
         alert("Upload failed. Check console for details.");
     }
 
+    if (progressBar.style.width !== "100%" && EXTRA_LIST_ITEMS.length > 0) {
+        progressBar.style.width = "100%";
+    }
     sendBtn.disabled = false;
 });
 
