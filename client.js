@@ -7,10 +7,11 @@ const resultList = document.getElementById("resultList");
 
 const EXTRA_LIST_ITEMS = [
     "Check image quality",
-    "Check image size"
+    "Check image size",
+    "Check next"
 ];
 
-const LOADING_STEP_DELAY_MS = 300;
+const LOADING_STEP_DELAY_MS = 5000;
 
 let selectedFiles = [];
 
