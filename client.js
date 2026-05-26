@@ -5,6 +5,13 @@ const progressWrapper = document.getElementById("progressWrapper");
 const progressBar = document.getElementById("progressBar");
 const resultList = document.getElementById("resultList");
 
+const EXTRA_LIST_ITEMS = [
+    "Check image quality",
+    "Check image size"
+];
+
+const LOADING_STEP_DELAY_MS = 300;
+
 let selectedFiles = [];
 
 imageInput.addEventListener("change", () => {
@@ -32,6 +39,8 @@ sendBtn.addEventListener("click", async () => {
     progressBar.style.width = "0%";
 
     const uploadedUrls = [];
+    const totalItems = selectedFiles.length + EXTRA_LIST_ITEMS.length;
+    let completedItems = 0;
 
     try {
         for (let i = 0; i < selectedFiles.length; i++) {
@@ -57,10 +66,17 @@ sendBtn.addEventListener("click", async () => {
             const imageUrl = result.data.url;
             uploadedUrls.push(imageUrl);
 
-            const progress = Math.round(((i + 1) / selectedFiles.length) * 100);
-            progressBar.style.width = progress + "%";
-
+            completedItems++;
+            updateProgress(completedItems, totalItems);
             changeItemToX(i);
+            await wait(LOADING_STEP_DELAY_MS);
+        }
+
+        for (let i = 0; i < EXTRA_LIST_ITEMS.length; i++) {
+            completedItems++;
+            updateProgress(completedItems, totalItems);
+            changeItemToX(selectedFiles.length + i);
+            await wait(LOADING_STEP_DELAY_MS);
         }
 
         console.log("Uploaded image URLs:", uploadedUrls);
@@ -81,6 +97,22 @@ function renderFileList(files) {
         const fileName = document.createElement("span");
         fileName.className = "file-name";
         fileName.textContent = file.name;
+
+        const status = document.createElement("span");
+        status.className = "status";
+        status.textContent = "no info";
+
+        li.appendChild(fileName);
+        li.appendChild(status);
+        resultList.appendChild(li);
+    });
+
+    EXTRA_LIST_ITEMS.forEach((itemName) => {
+        const li = document.createElement("li");
+
+        const fileName = document.createElement("span");
+        fileName.className = "file-name";
+        fileName.textContent = itemName;
 
         const status = document.createElement("span");
         status.className = "status";
@@ -112,6 +144,21 @@ function changeItemToX(index) {
 
     status.textContent = "✕";
     status.className = "x-icon";
+}
+
+
+function updateProgress(done, total) {
+    if (total === 0) {
+        progressBar.style.width = "0%";
+        return;
+    }
+
+    const progress = Math.round((done / total) * 100);
+    progressBar.style.width = progress + "%";
+}
+
+function wait(milliseconds) {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
 function resetProgress() {
